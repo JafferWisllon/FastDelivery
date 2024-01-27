@@ -1,11 +1,12 @@
 ﻿using FastDelivery.Api.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FastDelivery.Api.Data
 {
-    public sealed class ApiDbContext : DbContext
+    public sealed class ApiDbContext : IdentityDbContext
     {
-        public ApiDbContext(DbContextOptions options) : base(options)
+        public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options)
         {
         }
 

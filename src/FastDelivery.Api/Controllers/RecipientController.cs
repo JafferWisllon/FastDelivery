@@ -1,10 +1,12 @@
 ﻿using FastDelivery.Api.Data;
 using FastDelivery.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FastDelivery.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/recipient")]
     public class RecipientController : ControllerBase
@@ -76,6 +78,7 @@ namespace FastDelivery.Api.Controllers
             return BadRequest();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
