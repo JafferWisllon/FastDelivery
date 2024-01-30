@@ -4,32 +4,30 @@ namespace FastDelivery.Api.Models
 {
     public class Recipient
     {
+        public Recipient(string name, string street, string number, string complement, string state, string city, string zipCode)
+        {
+            Name = name;
+            Street = street;
+            Number = number;
+            Complement = complement;
+            State = state;
+            City = city;
+            ZipCode = zipCode;
+        }
+
         [Key]
         public int Id { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        [Required]
-        [MaxLength(255)]
         public string Street { get; set; }
 
-        [Required]
-        [MinLength(1)]
         [MaxLength(4)]
         public string Number { get; set; }
-
         public string Complement { get; set; }
 
-        [Required]
         [MaxLength(2)]
         public string State { get; set; }
-
-        [Required]
-        [MaxLength(255)]
         public string City { get; set; }
 
-        [Required]
         [MaxLength(8)]
         public string ZipCode { get; set; }
     }

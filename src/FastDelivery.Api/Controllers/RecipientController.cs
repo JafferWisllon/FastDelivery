@@ -1,5 +1,6 @@
 ﻿using FastDelivery.Api.Data;
 using FastDelivery.Api.Models;
+using FastDelivery.Api.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,10 +38,11 @@ namespace FastDelivery.Api.Controllers
         [HttpPost()]
         [ProducesResponseType(typeof(Recipient), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Recipient>> Create([FromBody] Recipient recipient)
+        public async Task<ActionResult<Recipient>> Create([FromBody] RecipientViewModel request)
         {
             if (ModelState.IsValid)
             {
+                var recipient = new Recipient(request.Name, request.Street, request.Number, request.Complement, request.State, request.City, request.ZipCode);
                 _context.Recipients.Add(recipient);
                 await _context.SaveChangesAsync();
                 return CreatedAtAction(nameof(Get), new { id = recipient.Id }, recipient);
@@ -53,7 +55,7 @@ namespace FastDelivery.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult> Update(int id, [FromBody] Recipient request)
+        public async Task<ActionResult> Update(int id, [FromBody] RecipientViewModel request)
         {
             var recipient = await _context.Recipients.FindAsync(id);
             if (recipient is null)
@@ -61,7 +63,15 @@ namespace FastDelivery.Api.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Entry(recipient).State = EntityState.Modified;
+                recipient.Name = request.Name;
+                recipient.Street = request.Street;
+                recipient.State = request.State;
+                recipient.Number = request.Number;
+                recipient.Complement = request.Complement;
+                recipient.City = request.City;
+                recipient.ZipCode = request.ZipCode;
+
+                _context.Update(recipient);
                 try
                 {
                     await _context.SaveChangesAsync();
