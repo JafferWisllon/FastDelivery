@@ -46,7 +46,7 @@ namespace FastDelivery.Api.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
-                return Ok(GenerateJwt(user.Email));
+                return Ok(await GenerateJwt(user.Email));
             }
 
             return Problem("Fail to register a new user");
