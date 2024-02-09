@@ -11,5 +11,6 @@ namespace FastDelivery.Api.Data
         }
 
         public DbSet<Recipient> Recipients { get; set; }
+        public DbSet<Deliveryman> Deliverymen { get; set; }
     }
 }
