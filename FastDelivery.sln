@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastDelivery.Api", "src\Fas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastDelivery.Business", "src\FastDelivery.Business\FastDelivery.Business.csproj", "{1673A0EA-CC66-448C-ACCC-2A0DBB65BE75}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Infraestructure", "3 - Infraestructure", "{C3B732BE-1AC1-4446-8DBB-9A93B369A2A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastDelivery.Infra.Data", "src\FastDelivery.Infra.Data\FastDelivery.Infra.Data.csproj", "{BFBB796E-89C7-4349-88FF-86F5170E3571}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,10 @@ Global
 		{1673A0EA-CC66-448C-ACCC-2A0DBB65BE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1673A0EA-CC66-448C-ACCC-2A0DBB65BE75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1673A0EA-CC66-448C-ACCC-2A0DBB65BE75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFBB796E-89C7-4349-88FF-86F5170E3571}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFBB796E-89C7-4349-88FF-86F5170E3571}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFBB796E-89C7-4349-88FF-86F5170E3571}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFBB796E-89C7-4349-88FF-86F5170E3571}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +40,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{95F4D3DD-073C-413C-AB38-6F329D9ED56E} = {8218FACA-A662-4B89-B9D9-566D5119014E}
 		{1673A0EA-CC66-448C-ACCC-2A0DBB65BE75} = {A96E9D42-D7B5-4C15-86EE-F1E974969ADB}
+		{BFBB796E-89C7-4349-88FF-86F5170E3571} = {C3B732BE-1AC1-4446-8DBB-9A93B369A2A9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73CF1912-7593-4E8B-AF67-7EE8E951DC9B}

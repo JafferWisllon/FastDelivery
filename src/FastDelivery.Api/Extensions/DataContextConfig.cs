@@ -1,4 +1,4 @@
-﻿using FastDelivery.Api.Data;
+﻿using FastDelivery.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace FastDelivery.Api.Extensions
@@ -7,7 +7,7 @@ namespace FastDelivery.Api.Extensions
     {
         public static WebApplicationBuilder AddDbContextConfig(this WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<ApiDbContext>(options =>
+            builder.Services.AddDbContext<ApplicationContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });

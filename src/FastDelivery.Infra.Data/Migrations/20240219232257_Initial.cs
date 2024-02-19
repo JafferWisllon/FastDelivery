@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace FastDelivery.Api.Migrations
+namespace FastDelivery.Infra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Identity : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,10 +15,10 @@ namespace FastDelivery.Api.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Name = table.Column<string>(type: "varchar(100)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "varchar(100)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(100)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,16 +29,16 @@ namespace FastDelivery.Api.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Id = table.Column<string>(type: "varchar(100)", nullable: false),
+                    UserName = table.Column<string>(type: "varchar(100)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "varchar(100)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "varchar(100)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "varchar(100)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordHash = table.Column<string>(type: "varchar(100)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "varchar(100)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(100)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "varchar(100)", nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -51,14 +51,52 @@ namespace FastDelivery.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Deliverymen",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "varchar(200)", nullable: false),
+                    AvatarId = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Email = table.Column<string>(type: "varchar(200)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Deliverymen", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Recipients",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Street = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Number = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Complement = table.Column<string>(type: "varchar(200)", nullable: true),
+                    State = table.Column<string>(type: "varchar(2)", nullable: false),
+                    City = table.Column<string>(type: "varchar(100)", nullable: false),
+                    ZipCode = table.Column<string>(type: "varchar(8)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Recipients", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    RoleId = table.Column<string>(type: "varchar(100)", nullable: false),
+                    ClaimType = table.Column<string>(type: "varchar(100)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "varchar(100)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -77,9 +115,9 @@ namespace FastDelivery.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserId = table.Column<string>(type: "varchar(100)", nullable: false),
+                    ClaimType = table.Column<string>(type: "varchar(100)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "varchar(100)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -96,10 +134,10 @@ namespace FastDelivery.Api.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    LoginProvider = table.Column<string>(type: "varchar(100)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "varchar(100)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "varchar(100)", nullable: true),
+                    UserId = table.Column<string>(type: "varchar(100)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,8 +154,8 @@ namespace FastDelivery.Api.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "varchar(100)", nullable: false),
+                    RoleId = table.Column<string>(type: "varchar(100)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -140,10 +178,10 @@ namespace FastDelivery.Api.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserId = table.Column<string>(type: "varchar(100)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Name = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Value = table.Column<string>(type: "varchar(100)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -213,6 +251,12 @@ namespace FastDelivery.Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Deliverymen");
+
+            migrationBuilder.DropTable(
+                name: "Recipients");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
