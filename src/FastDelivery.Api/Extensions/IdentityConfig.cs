@@ -1,5 +1,5 @@
-﻿using FastDelivery.Api.Data;
-using FastDelivery.Api.Models;
+﻿using FastDelivery.Api.Models;
+using FastDelivery.Infra.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -13,7 +13,7 @@ namespace FastDelivery.Api.Extensions
         {
             builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                             .AddRoles<IdentityRole>()
-                            .AddEntityFrameworkStores<ApiDbContext>();
+                            .AddEntityFrameworkStores<ApplicationContext>();
 
             var jwtSettingsSection = builder.Configuration.GetSection("JwtSettings");
             builder.Services.Configure<JwtSettings>(jwtSettingsSection);
