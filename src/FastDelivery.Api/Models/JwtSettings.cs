@@ -1,4 +1,4 @@
-﻿namespace FastDelivery.Api.Models
+﻿namespace FastDelivery.Api
 {
     public class JwtSettings
     {

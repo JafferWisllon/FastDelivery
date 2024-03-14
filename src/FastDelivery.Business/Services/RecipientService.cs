@@ -2,10 +2,10 @@
 {
     public class RecipientService : BaseService, IRecipientService
     {
-        private readonly IRepository<Recipient> _recipientRepository;
+        private readonly IRecipientRepository _recipientRepository;
 
         public RecipientService(
-            IRepository<Recipient> recipientRepository,
+            IRecipientRepository recipientRepository,
             INotifier notifier) : base(notifier)
         {
             _recipientRepository = recipientRepository;

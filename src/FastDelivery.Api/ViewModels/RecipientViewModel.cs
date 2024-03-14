@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FastDelivery.Api.ViewModels
+namespace FastDelivery.Api
 {
     public class RecipientViewModel
     {
+        public Guid Id { get; set; }
+
         [Required]
         public string Name { get; set; }
 

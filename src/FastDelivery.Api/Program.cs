@@ -1,4 +1,4 @@
-using FastDelivery.Api.Extensions;
+using FastDelivery.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +6,9 @@ builder
     .AddApiConfig()
     .AddSwagger()
     .AddDbContextConfig()
-    .AddIdentityConfig();
+    .AddIdentityConfig()
+    .AddAutoMapper()
+    .ResolveDependencies();
 
 var app = builder.Build();
 

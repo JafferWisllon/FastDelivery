@@ -1,7 +1,7 @@
 ﻿using FastDelivery.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace FastDelivery.Api.Extensions
+namespace FastDelivery.Api
 {
     public static class DataContextConfig
     {

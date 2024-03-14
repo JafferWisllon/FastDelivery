@@ -3,10 +3,10 @@ namespace FastDelivery.Business
 {
     public class DeliverymanService : BaseService, IDeliverymanService
     {
-        private readonly IRepository<Deliveryman> _deliverymanRepository;
+        private readonly IDeliverymanRepository _deliverymanRepository;
 
         public DeliverymanService(
-            IRepository<Deliveryman> deliverymanRepository,
+            IDeliverymanRepository deliverymanRepository,
             INotifier notifier) : base(notifier)
         {
             _deliverymanRepository = deliverymanRepository;
@@ -41,7 +41,7 @@ namespace FastDelivery.Business
         public async Task Remove(Guid id)
         {
             var deliveryman = await _deliverymanRepository.GetById(id);
-            if (deliveryman != null)
+            if (deliveryman is null)
             {
                 Notify("Entregador não existe");
             }

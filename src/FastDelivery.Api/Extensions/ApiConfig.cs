@@ -1,4 +1,4 @@
-﻿namespace FastDelivery.Api.Extensions
+﻿namespace FastDelivery.Api
 {
     public static class ApiConfig
     {
