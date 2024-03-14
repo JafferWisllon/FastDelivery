@@ -1,11 +1,10 @@
-﻿using FastDelivery.Api.Models;
-using FastDelivery.Infra.Data;
+﻿using FastDelivery.Infra.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace FastDelivery.Api.Extensions
+namespace FastDelivery.Api
 {
     public static class IdentityConfig
     {

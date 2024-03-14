@@ -1,117 +1,92 @@
-﻿using FastDelivery.Infra.Data;
+﻿using AutoMapper;
+using FastDelivery.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
-namespace FastDelivery.Api.Controllers
+namespace FastDelivery.Api
 {
     [ApiController]
     [Route("/api/deliveryman")]
     [Authorize(Roles = "Admin")]
-    public class DeliverymanController : ControllerBase
+    public class DeliverymanController : BaseController
     {
-        private readonly ApplicationContext _context;
+        private readonly IDeliverymanService _service;
+        private readonly IDeliverymanRepository _repository;
+        private readonly IMapper _mapper;
 
-        public DeliverymanController(ApplicationContext context)
+        public DeliverymanController(IDeliverymanService service, IDeliverymanRepository repository, IMapper mapper, INotifier notifier)
+            : base(notifier)
         {
-            _context = context;
+            _service = service;
+            _repository = repository;
+            _mapper = mapper;
         }
 
-        //[HttpGet()]
-        //[ProducesResponseType(typeof(IEnumerable<Deliveryman>), StatusCodes.Status200OK)]
-        //public async Task<ActionResult<IEnumerable<Deliveryman>>> Index()
-        //{
-        //    return Ok();
-        //    //return await _context.Deliverymen.ToListAsync();
-        //}
+        [HttpGet()]
+        [ProducesResponseType(typeof(IEnumerable<DeliverymanViewModel>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<DeliverymanViewModel>>> Index()
+        {
+            var deliverymen = await _repository.GetAll();
+            return Ok(_mapper.Map<IEnumerable<DeliverymanViewModel>>(deliverymen));
+        }
 
-        //[HttpGet("{id:int}")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[ProducesDefaultResponseType]
-        //public async Task<ActionResult<Deliveryman>> Index(int id)
-        //{
-        //    var deliveryman = await _context.Deliverymen.FirstOrDefaultAsync(x => x.Id == id);
-        //    if (deliveryman is null)
-        //        return NotFound();
+        [HttpGet("{id:Guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<DeliverymanViewModel>> Index(Guid id)
+        {
+            var deliveryman = await _repository.GetById(id);
+            if (deliveryman is null)
+                return NotFound();
 
-        //    return deliveryman;
-        //}
+            return Ok(_mapper.Map<DeliverymanViewModel>(deliveryman)); ;
+        }
 
-        //[HttpPost()]
-        //[ProducesResponseType(StatusCodes.Status201Created)]
-        //[ProducesDefaultResponseType]
-        //public async Task<ActionResult<Deliveryman>> Create([FromBody] DeliverymanViewModel request)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var deliveryman = new Deliveryman(request.Name, request.AvatarId, request.Email);
-        //        _context.Deliverymen.Add(deliveryman);
-        //        await _context.SaveChangesAsync();
-        //        return CreatedAtAction(nameof(Index), new { id = deliveryman.Id }, deliveryman);
-        //    }
-        //    return BadRequest();
-        //}
+        [HttpPost()]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<DeliverymanViewModel>> Create([FromBody] DeliverymanViewModel request)
+        {
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[ProducesDefaultResponseType]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[HttpPut("{id:int}")]
-        //public async Task<ActionResult<Deliveryman>> Put(int id, [FromBody] DeliverymanViewModel request)
-        //{
-        //    var deliveryman = await _context.Deliverymen.FirstOrDefaultAsync(x => x.Id == id);
-        //    if (deliveryman is null)
-        //        return NotFound();
+            await _service.Add(_mapper.Map<Deliveryman>(request));
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        deliveryman.AvatarId = request.AvatarId;
-        //        deliveryman.Email = request.Email;
-        //        deliveryman.Name = request.Name;
-        //        deliveryman.UppdatedAt = DateTime.UtcNow;
+            return CustomResponse(HttpStatusCode.Created, request);
+        }
 
-        //        _context.Update(deliveryman);
-        //        try
-        //        {
-        //            await _context.SaveChangesAsync();
-        //            return NoContent();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!DeliverymanAlreadyExists(id))
-        //                return NotFound();
-        //            else
-        //                throw;
-        //        }
-        //    }
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [HttpPut("{id:Guid}")]
+        public async Task<ActionResult<DeliverymanViewModel>> Put(Guid id, [FromBody] DeliverymanViewModel request)
+        {
+            if (id != request.Id)
+            {
+                NotifyError("Ids not match");
+                return CustomResponse();
+            }
 
-        //    return BadRequest();
-        //}
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[ProducesDefaultResponseType]
-        //[HttpDelete("{id:int}")]
-        //public async Task<ActionResult<Deliveryman>> Delete(int id)
-        //{
-        //    var deliveryman = await _context.Deliverymen.FirstOrDefaultAsync(x => x.Id == id);
-        //    if (deliveryman is null)
-        //        return NotFound();
+            await _service.Update(_mapper.Map<Deliveryman>(request));
+            return CustomResponse(HttpStatusCode.NoContent);
+        }
 
-        //    try
-        //    {
-        //        _context.Remove(deliveryman);
-        //        await _context.SaveChangesAsync();
-        //        return NoContent();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //}
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        [HttpDelete("{id:Guid}")]
+        public async Task<ActionResult<DeliverymanViewModel>> Delete(Guid id)
+        {
+            var deliveryman = await _repository.GetById(id);
+            if (deliveryman is null)
+                return NotFound();
 
-        //private bool DeliverymanAlreadyExists(int id)
-        //{
-        //    return (_context.Deliverymen?.Any(r => r.Id == id)).GetValueOrDefault();
-        //}
+            await _service.Remove(id);
+
+            return CustomResponse(HttpStatusCode.NoContent);
+        }
     }
 }

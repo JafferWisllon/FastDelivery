@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FastDelivery.Api.ViewModels
+namespace FastDelivery.Api
 {
     public class LoginViewModel
     {

@@ -5,7 +5,7 @@ namespace FastDelivery.Business
     {
         private readonly List<Notification> _notifications;
 
-        public Notifier(List<Notification> notifications)
+        public Notifier()
         {
             _notifications = new List<Notification>();
         }
